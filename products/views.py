@@ -34,3 +34,11 @@ def get_product_by_id(request, product_id):
         return Response(serializer.data)
     except Products.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def save_product(request):
+    serializer = ProductSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
